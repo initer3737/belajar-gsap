@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <style>
+    .code-editor{
+        height: 100vh;
+    }
+    body { background: #111; display: grid; place-content: center; height: 100vh; gap: 20px; }
+    .box { width: 80px; height: 80px; }
+    .box1 { background: #e74c3c; }
+    .box2 { background: #3498db; }
+    .box3 { background: #2ecc71; }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/material.min.css">
+</head>
+<body>
+  
+
+<!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/xml/xml.min.js"></script> <!-- Untuk HTML -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/css/css.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/javascript/javascript.min.js"></script>
+<div style="display: flex; flex-direction: column; height: 100vh;">
+  <!-- Area Editor -->
+  <div style="display: flex; flex: 1;width:100vw;">
+    <div style="flex: 1; border: 1px solid #ddd;min-height:100vh;">
+      <textarea id="code-editor"></textarea>
+    </div>
+    <!-- Area Preview -->
+    <iframe id="preview" style="flex: 1; border: none; background: white;"></iframe>
+  </div>
+</div>
+
+<script>
+  // 1. Inisialisasi CodeMirror pada textarea
+  const editor = CodeMirror.fromTextArea(document.getElementById("code-editor"), {
+    mode: "text/javascript",
+    theme: "material",
+    lineNumbers: true,
+    tabSize: 2,
+    autoCloseTags: true
+  });
+
+  // Nilai default untuk mencoba
+  const defaultCode = `<!DOCTYPE html>
+<html>
+<head>
+  <\script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"><\/script>
+  <style>
+    body { 
+      font-family: sans-serif; 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      justify-content: center; 
+      height: 100vh; 
+      margin: 0;
+      gap: 10px;
+    }
+    .box { width: 80px; height: 80px; border-radius: 8px; }
+    .box1 { background: #e74c3c; }
+    .box2 { background: #3498db; }
+    .box3 { background: #2ecc71; }
+  </style>
+</head>
+<body>
+
+  <div class="box box1"></div>
+  <div class="box box2"></div>
+  <div class="box box3"></div>
+
+  <script>
+    // Animasi GSAP
+    gsap.to('.box1', { duration: 2, x: 100, repeat: -1, yoyo: true });
+    gsap.from('.box2', { duration: 2, opacity: 0, scale: 0.5, delay: 0.5 });
+    gsap.to('.box3', { duration: 2, rotation: 360, repeat: -1, ease: "none" });
+  <\/script>
+</body>
+</html>`
+
+  editor.setValue(defaultCode);
+
+  // 2. Fungsi Update Preview
+  function updatePreview() {
+    const previewFrame = document.getElementById('preview');
+    const previewContent = editor.getValue();
+    previewFrame.srcdoc = previewContent;
+  }
+
+  // 3. Pasang Event Listener (dengan sedikit delay agar tidak terlalu berat)
+  let timeout;
+  editor.on('change', () => {
+    clearTimeout(timeout);
+    timeout = setTimeout(updatePreview, 1000); // Update setelah 500ms berhenti ngetik
+  })
+
+  // Jalankan pertama kali
+  updatePreview();
+</script>
+</body>
+</html>

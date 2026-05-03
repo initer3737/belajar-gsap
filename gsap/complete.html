@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <style>
+    body { background: #111; display: grid; place-content: center; height: 100vh; gap: 20px;margin-block:45rem; color:white;}
+    .box { width: 80px; height: 80px; }
+    .box0 { background: blue; }
+    .box1 { background: #e74c3c; }
+    .box2 { background: #b1dbf6; }
+    .box3 { background: #2ecc71; }
+    .wrapper{
+        margin-bottom: 45px;
+    }
+    h1{
+        color:white;
+    }
+    .row{
+        display: flex;
+        gap:2.23rem;
+    }
+    .judul, .desc, .btn { opacity: 0; }
+  </style>
+</head>
+<body>
+  
+<div class="wrapper wrapper-1">
+    <h1>set ,to and fromTo</h1>
+  <div class="box box1"></div>
+  <div class="box box2"></div>
+  <div class="box box3"></div>
+</div>
+<div class="wrapper wrapper-2">
+    <h1>testing wrapper-2 <span class="score"></span></h1>
+  <div class="box box1"></div>
+  <div class="box box2"></div>
+  <div class="box box3"></div>
+</div>
+<div class="wrapper wrapper-3">
+    <h1>timeline</h1>
+ <div class="row">
+    <div class="box box0"></div>
+    <div class="box box1"></div>
+    <div class="box box2"></div>
+    <div class="box box3"></div>
+ </div>
+</div>
+<div class="wrapper wrapper-4">
+    <h1>timeline 2</h1>
+  <div class="box box1"></div>
+  <div class="box box2"></div>
+  <div class="box box3"></div>
+</div>
+<div class="wrapper wrapper-5">
+    <h1>timeline 3</h1>
+    <h1 class="judul">Belajar GSAP</h1>
+    <p class="desc">Biar web nggak kaku</p>
+    <button class="btn">Mulai Sekarang</button>
+</div>
+<div class="wrapper wrapper-6">
+    <h1>timeline</h1>
+ <div class="row">
+    <div class="box box0"></div>
+    <div class="box box1"></div>
+    <div class="box box2"></div>
+    <div class="box box3"></div>
+ </div>
+</div>
+<div class="wrapper wrapper-7">
+    <h1>scroll</h1>
+ <div class="row">
+    <div class="box box0"></div>
+    <div class="box box1"></div>
+    <div class="box box2"></div>
+    <div class="box box3"></div>
+ </div>
+</div>
+<script>
+    // Animasi GSAP
+    const wrapper1=".wrapper-1 "
+    gsap.set(wrapper1+' .box1', { duration: 2, x: 500, repeat: -1, yoyo: true });
+    gsap.to(wrapper1+' .box1', { duration: 2, x: 0, repeat: -1, yoyo: false });
+    gsap.fromTo(wrapper1+' .box2', { duration: 2, opacity: 0, scale: 1.5, delay: 0.5 },{ duration: 2, opacity:1, scale: 1.5, delay: 0 });
+    gsap.to(wrapper1+' .box3', { duration: 2, rotation: 360, repeat: -1, ease: "none" ,onComplete:console.log("completed"),onUpdate:console.log("updating")});
+  </script>
+<script>
+    // Animasi GSAP
+    const wrapper2=".wrapper-2 "
+    const score = document.querySelector(wrapper2+' .score')
+    gsap.to(wrapper2+' .box', { duration: 2, x:-122,autoAlpha:0, stagger:1, ease: "none" ,onComplete:function(){
+        gsap.to(wrapper2+'.box',{ duration: 2, x:5,autoAlpha:1, stagger:1.5, ease: "none",delay:1,repeatDelay:0.5})
+        score.textContent=" selesai"
+    },onUpdate:function(){
+        const percentage=this.progress()
+        // score.textContent=Math.round(gsap.getProperty('.box','x'))
+        score.textContent=percentage>=0.5?`percentage ${(percentage*100).toFixed(0)} time ${this.time().toFixed(1)}`:null
+    }});
+  </script>
+<script>
+    // Animasi GSAP
+    const wrapper3=".wrapper-3 "
+    const tl=gsap.timeline()
+        tl
+        .to(wrapper3+" .box0",{x:-250,opacity:1})
+        .to(wrapper3+" .box1",{x:-250,opacity:1},"-=0.5")
+        .to(wrapper3+" .box2",{x:-250,opacity:1},"<=0")
+        .to(wrapper3+" .box3",{x:-250,opacity:1},1.5)
+  </script>
+<script>
+    // Animasi GSAP
+    const wrapper4=".wrapper-4 "
+    const tl2=gsap.timeline()
+        tl2.addLabel("mulai")
+        .to(wrapper4+" .box",{x:20,stagger:1})
+        .addLabel("tengah")
+        .to(wrapper4+" .box",{y:10,stagger:1})
+        tl2.seek("tengah")
+        
+  </script>
+<script>
+    // Animasi GSAP
+    const wrapper5=".wrapper-5 "
+    const tl3=gsap.timeline()
+        tl3.from(wrapper5+" .judul",{duration:0.8 ,y:-50,opacity:1})
+        .from(wrapper5+" .desc",{opacity:1},'-=0.4')
+        .from(wrapper5+" .btn",{scale:0,ease:"back.out(1.7)"})
+        
+  </script>
+
+<script>
+    // Animasi GSAP
+    const wrapper6=".wrapper-6 "
+    const tl4=gsap.timeline({
+        defaults:{duration:0.9,ease:"power2.out"}
+    })
+       tl4.to(wrapper6+" .box0",{
+        x:100
+       })
+       .to(wrapper6+" .box1",{
+        x:100
+       },'-=0.4')
+       .to(wrapper6+" .box2",{
+        x:100
+       },'-=1')
+       .to(wrapper6+" .box3",{
+        x:100
+       },'<0.2')
+        
+  </script>
+
+  <div style="height: 100vh">Scroll ke bawah</div>
+<div class="box-scroll" style="width:100px;height:100px;background:cyan;opacity:0"></div>
+<div style="height: 100vh"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script>
+  gsap.registerPlugin(ScrollTrigger) // wajib
+  
+  gsap.to(".box-scroll", {
+    scrollTrigger: ".box-scroll", // triggernya elemen ini sendiri
+    x: 400,
+    opacity: 1,
+    duration: 1
+  })
+   // Animasi GSAP
+    const wrapper7=".wrapper-7 "
+    const tl5=gsap.timeline({
+        scrollTrigger:".wrapper-7",
+        defaults:{duration:0.9,ease:"power2.out"}
+    })
+       tl5.to(wrapper7+" .box0",{
+        x:100
+       })
+       .to(wrapper7+" .box1",{
+        x:100
+       },'-=0.4')
+       .to(wrapper7+" .box2",{
+        x:100
+       },'-=1')
+       .to(wrapper7+" .box3",{
+        x:100
+       },'<0.2')
+</script>
+</body>
+
+</body>
+</html>
