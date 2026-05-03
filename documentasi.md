@@ -1,5 +1,5 @@
 ***
-#### gsap adalah greensock animation platform adalah industri yang digunakkan oleh hampir 11 juta website 
+#### gsap adalah greensock animation platform adalah platform berbasis javascript library yang digunakkan untuk membuat animasi dan telah digunakkan oleh hampir 11 juta website di dunia
 
 ***
 ### dari posisi yang ditentukan menuju ke x
